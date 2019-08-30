@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical" >
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+    <ScrollView
+        android:id="@+id/SCROLLER_ID"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:fillViewport="true"
+        android:scrollbars="vertical"
+        android:layout_margin="0dp"
+        android:padding="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <fragment
+                android:name="com.truchsess.send2car.PreferencesFragment"
+                android:id="@+id/fragmentPreferences"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <fragment
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="com.truchsess.send2car.GetVinsFragment"
+                android:id="@+id/fragmentGetVins" />
+            <fragment
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="com.truchsess.send2car.GeoFragment"
+                android:id="@+id/fragmentGeo" />
+            <fragment
+                android:name="com.truchsess.send2car.ListPlacesFragment"
+                android:id="@+id/fragmentListPlaces"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <fragment
+                android:name="com.truchsess.send2car.PlaceFragment"
+                android:id="@+id/fragmentPlace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <fragment
+                android:name="com.truchsess.send2car.StatusFragment"
+                android:id="@+id/fragmentStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

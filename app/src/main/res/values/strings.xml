@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">Send2Car</string>
+    <string name="menu">Menu</string>
+    <string name="help">Help</string>
+    <string name="lon">Longitude:</string>
+    <string name="lat">Latitude:</string>
+    <string name="desc">Description:</string>
+    <string name="lookup_geodata">Lookup Geodata</string>
+    <string name="poi_name">Name:</string>
+    <string name="poi_lat">Latitude:</string>
+    <string name="poi_lon">Longitude:</string>
+    <string name="poi_city">City:</string>
+    <string name="poi_postalcode">Postalcode:</string>
+    <string name="poi_street">Street:</string>
+    <string name="poi_number">Number:</string>
+    <string name="poi_phone">Phone:</string>
+    <string name="poi_subject">Subject:</string>
+    <string name="poi_message">Message:</string>
+    <string name="send2car">Send to Car</string>
+    <string name="getVins">Load Vins</string>
+    <string name="url_help">https://github.com/ntruchsess/send2car</string>
+
+    <string name="title_place">Location</string>
+    <string name="title_places_list">Locations</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_routes">Routes</string>
+    <string name="action_service_modes">Service Modes</string>
+    <string name="action_routing_data">Routing Data</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_help">Help</string>
+
+    <string name="preferences_title">Settings</string>
+    <string name="preference_label_apikey">Api-Key</string>
+    <string name="preference_label_apisecret">Api-Secret</string>
+    <string name="preference_label_username">Username</string>
+    <string name="preference_label_password">Password</string>
+    <string name="preference_label_vins">VINs</string>
+    <string name="key_preference_apikey">preference_apikey</string>
+    <string name="key_preference_apisecret">preference_apisecret</string>
+    <string name="key_preference_username">preference_username</string>
+    <string name="key_preference_password">preference_password</string>
+    <string name="key_preference_vins">preference_vins</string>
+    <string name="key_preference_selected_vin">preference_vin</string>
+
+    <string name="status_servicemessage">ServiceMessage</string>
+    <string name="status_servicemessage_error">ServiceMessage error</string>
+    <string name="status_novin">cannot send: no VIN selected</string>
+    <string name="status_sending">sending...</string>
+    <string name="status_authenticating">authenticating...</string>
+    <string name="status_loading">loading...</string>
+    <string name="status_sent">sent</string>
+    <string name="status_success">success</string>
+    <string name="status_lookup_geo">Lookup Geodata:</string>
+    <string name="status_lookup_geo_error">Lookup Geodata: failure</string>
+    <string name="status_get_vehicles">Getting Vehicles:</string>
+    <string name="status_get_vehicles_error">Getting Vehicles: failure</string>
+</resources>

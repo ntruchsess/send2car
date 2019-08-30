@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusableInTouchMode="true" >
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:padding="3dp"
+            android:text="@string/poi_name"/>
+        <TextView
+            android:id="@+id/textViewPoiName"
+            android:padding="3dp"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:padding="3dp"
+            android:text="@string/poi_lat"/>
+        <TextView
+            android:id="@+id/textViewPoiLat"
+            android:padding="3dp"
+            android:text="0.0"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:padding="3dp"
+            android:text="@string/poi_lon"/>
+        <TextView
+            android:id="@+id/textViewPoiLon"
+            android:padding="3dp"
+            android:text="0.0"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:padding="3dp"
+            android:text="@string/poi_city"/>
+        <TextView
+            android:id="@+id/textViewPoiCity"
+            android:padding="3dp"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:padding="3dp"
+            android:text="@string/poi_postalcode"/>
+        <TextView
+            android:id="@+id/textViewPoiPostalCode"
+            android:padding="3dp"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:padding="3dp"
+            android:text="@string/poi_street"/>
+        <TextView
+            android:id="@+id/textViewPoiStreet"
+            android:padding="3dp"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:padding="3dp"
+            android:text="@string/poi_number"/>
+        <TextView
+            android:id="@+id/textViewPoiNumber"
+            android:padding="3dp"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:padding="3dp"
+            android:text="@string/poi_subject"/>
+        <EditText
+            android:id="@+id/editTextSubject"
+            android:padding="3dp"
+            android:maxLength="20"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:padding="3dp"
+            android:text="@string/poi_phone"/>
+        <EditText
+            android:id="@+id/editTextPoiPhone"
+            android:padding="3dp"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:padding="3dp"
+            android:text="@string/poi_message"/>
+        <EditText
+            android:id="@+id/editTextMessage"
+            android:padding="3dp"
+            android:maxLength="255"/>
+    </TableRow>
+    <TableRow
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+        <TextView
+            android:padding="3dp"
+            android:text="@string/preference_label_vins"/>
+        <RadioGroup
+            android:id="@+id/radioGroupVins"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical">
+        </RadioGroup>
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/buttonSend2Car"
+            android:text="@string/send2car" />
+    </TableRow>
+</TableLayout>

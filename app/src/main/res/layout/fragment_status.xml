@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusableInTouchMode="true" >
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/textViewErrorLabel"
+            android:padding="3dp"
+            android:text="status:"/>
+        <TextView
+            android:id="@+id/textViewError"
+            android:padding="3dp" />
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/textViewErrorDescriptionLabel"
+            android:padding="3dp"
+            android:text="description:"/>
+        <TextView
+            android:id="@+id/textViewErrorDescription"
+            android:padding="3dp" />
+    </TableRow>
+</TableLayout>
