@@ -9,7 +9,7 @@ import java.util.Base64;
 import static com.truchsess.send2car.cd.api.CDApi.API_SERVER;
 
 /**********************************************************************************************
- Copyright (C) 2018 Norbert Truchsess norbert.truchsess@t-online.de
+ Copyright (C) 2020 Norbert Truchsess norbert.truchsess@t-online.de
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -29,6 +29,10 @@ public class Token extends CDApiCall<TokenResponse> {
     private static String GRANT_TYPE = "password";
     private static String SCOPE = "remote_services vehicle_data";
     private static long expireBefore = 60 * 1000L; //ms
+    private String username;
+    private String password;
+    private String api_key;
+    private String api_secret;
 
     private String token = null;
     private String tokenType;
@@ -38,6 +42,23 @@ public class Token extends CDApiCall<TokenResponse> {
 
     public void setCredentials(final String username, final String password, final String api_key, final String api_secret) {
 
+        if(apiCall != null
+            && this.username != null
+            && this.username.equals(username)
+            && this.password != null
+            && this.password.equals(password)
+            && this.api_key != null
+            && this.api_key.equals(api_key)
+            && this.api_secret != null
+            && this.api_secret.equals(api_secret)) {
+            return;
+        }
+
+        this.username = username;
+        this.password = password;
+        this.api_key = api_key;
+        this.api_secret = api_secret;
+
         final String gcdm = api_key+":"+api_secret;
         final String gcdm_key = android.util.Base64.encodeToString(gcdm.getBytes(), android.util.Base64.NO_WRAP);
         apiCall = this.createApi(API_SERVER).getToken(
@@ -46,6 +67,7 @@ public class Token extends CDApiCall<TokenResponse> {
                 password,
                 SCOPE,
                 "Basic "+gcdm_key);
+        clearToken();
     }
 
     public void clearToken() {
@@ -55,9 +77,9 @@ public class Token extends CDApiCall<TokenResponse> {
 
     public interface AuthenticationListener {
 
-        public void onAuthentication();
+        void onAuthentication();
 
-        public void onAuthenticationFailure(final ErrorResponse errorResponse);
+        void onAuthenticationFailure(final ErrorResponse errorResponse);
     }
 
     public void checkToken(final AuthenticationListener listener) {

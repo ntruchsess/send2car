@@ -17,6 +17,7 @@
     <string name="poi_subject">Subject:</string>
     <string name="poi_message">Message:</string>
     <string name="send2car">Send to Car</string>
+    <string name="getApiKeys">Load Keys from Portal</string>
     <string name="getVins">Load Vins</string>
     <string name="url_help">https://github.com/ntruchsess/send2car</string>
 
@@ -55,6 +56,8 @@
     <string name="status_success">success</string>
     <string name="status_lookup_geo">Lookup Geodata:</string>
     <string name="status_lookup_geo_error">Lookup Geodata: failure</string>
+    <string name="status_get_keys">Getting API-Keys:</string>
+    <string name="status_get_keys_error">Getting API-Keys: failure</string>
     <string name="status_get_vehicles">Getting Vehicles:</string>
     <string name="status_get_vehicles_error">Getting Vehicles: failure</string>
 </resources>

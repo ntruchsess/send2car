@@ -37,7 +37,7 @@
             <fragment
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:name="com.truchsess.send2car.GetVinsFragment"
+                android:name="com.truchsess.send2car.PreferencesActionsFragment"
                 android:id="@+id/fragmentGetVins" />
             <fragment
                 android:layout_width="match_parent"

@@ -3,6 +3,10 @@ package com.truchsess.send2car.cd;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.truchsess.send2car.cd.api.CDApi;
+import com.truchsess.send2car.cd.api.CDApiCall;
+import com.truchsess.send2car.cd.api.ErrorResponse;
+import com.truchsess.send2car.cd.api.PortalFlagsResponse;
+import com.truchsess.send2car.cd.api.TokenResponse;
 import com.truchsess.send2car.cd.api.VehicleResponse;
 import com.truchsess.send2car.cd.entity.CDApiJSONError;
 
@@ -18,6 +22,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.truchsess.send2car.cd.api.CDApi.API_SERVER;
+import static com.truchsess.send2car.cd.api.CDApi.CD_SERVER;
 
 /**********************************************************************************************
  Copyright (C) 2020 Norbert Truchsess norbert.truchsess@t-online.de
@@ -35,11 +42,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **********************************************************************************************/
-public class GetVehicles {
+public class GetPortalFlags {
 
     private final CDApi cdApi;
 
-    public GetVehicles(final String baseUrl) {
+    public GetPortalFlags(final String baseUrl) {
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .writeTimeout(60, TimeUnit.SECONDS)
@@ -53,16 +60,16 @@ public class GetVehicles {
         cdApi = retrofit.create(CDApi.class);
     }
 
-    public interface GetVehiclesListener {
-        void onSuccess(final VehicleResponse response);
+    public interface GetPortalFlagsListener {
+        void onSuccess(final PortalFlagsResponse response);
         void onError(final CDApiJSONError error);
     }
 
-    public void getVehiclesResponse(final String authorization, final GetVehiclesListener listener) {
+    public void getPortalFlagsResponse(final GetPortalFlags.GetPortalFlagsListener listener) {
 
-        cdApi.getVehicles(authorization).enqueue(new Callback<VehicleResponse>() {
+        cdApi.getPortalFlags().enqueue(new Callback<PortalFlagsResponse>() {
             @Override
-            public void onResponse(Call<VehicleResponse> call, Response<VehicleResponse> response) {
+            public void onResponse(Call<PortalFlagsResponse> call, Response<PortalFlagsResponse> response) {
                 if (response.isSuccessful()) {
                     listener.onSuccess(response.body());
                 } else {
@@ -93,11 +100,11 @@ public class GetVehicles {
             }
 
             @Override
-            public void onFailure(Call<VehicleResponse> call, Throwable t) {
+            public void onFailure(Call<PortalFlagsResponse> call, Throwable t) {
                 final CDApiJSONError error = new CDApiJSONError();
                 final List<String> reasons = new ArrayList<>();
                 reasons.add("0");
-                reasons.add("error getting vehicles");
+                reasons.add("error getting flags from portal");
                 reasons.add(t.getLocalizedMessage());
                 error.setReasons(reasons);
                 listener.onError(error);

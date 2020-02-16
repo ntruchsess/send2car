@@ -6,10 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 /**********************************************************************************************
- Copyright (C) 2018 Norbert Truchsess norbert.truchsess@t-online.de
+ Copyright (C) 2020 Norbert Truchsess norbert.truchsess@t-online.de
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -24,12 +23,14 @@ import android.widget.TextView;
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **********************************************************************************************/
-public class GetVinsFragment extends Fragment {
+public class PreferencesActionsFragment extends Fragment {
 
+    private Button mButtonLoadKeys;
     private Button mButtonGetVins;
     private Listener mListener;
 
     public interface Listener {
+        void onLoadKeysClicked();
         void onGetVinsClicked();
     }
 
@@ -40,10 +41,19 @@ public class GetVinsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_vins, container, false);
+        View view = inflater.inflate(R.layout.fragment_preference_actions, container, false);
+
+        mButtonLoadKeys = view.findViewById(R.id.buttonGetApiKeys);
+        mButtonLoadKeys.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListener != null) {
+                    mListener.onLoadKeysClicked();
+                }
+            }
+        });
 
         mButtonGetVins = view.findViewById(R.id.buttonGetVins);
-
         mButtonGetVins.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,6 +64,5 @@ public class GetVinsFragment extends Fragment {
         });
         return view;
     }
-
 }
 

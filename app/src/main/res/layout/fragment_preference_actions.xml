@@ -3,7 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:focusableInTouchMode="true" >
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonGetApiKeys"
+        android:text="@string/getApiKeys" />
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

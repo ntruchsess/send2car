@@ -8,12 +8,11 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 /**********************************************************************************************
- Copyright (C) 2018 Norbert Truchsess norbert.truchsess@t-online.de
+ Copyright (C) 2020 Norbert Truchsess norbert.truchsess@t-online.de
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -56,4 +55,7 @@ public interface CDApi {
     @POST("api/vehicle/myinfo/v1")
     //@Headers("Content-Type: application/json;charset=utf-8")
     Call<Void> sendServiceMessage(@Body ServiceMessage serviceMessage, @Header("Authorization") String authorization);
+
+    @GET("cms/BMW/de/flags.json")
+    Call<PortalFlagsResponse> getPortalFlags();
 }

@@ -25,6 +25,7 @@ import com.truchsess.send2car.cd.Token;
 import com.truchsess.send2car.cd.api.ErrorResponse;
 import com.truchsess.send2car.cd.entity.ServiceMessage;
 import com.truchsess.send2car.cd.entity.Vehicle;
+import com.truchsess.send2car.component.GetApiKeysController;
 import com.truchsess.send2car.component.GetVehiclesController;
 import com.truchsess.send2car.component.SendServiceMessageController;
 import com.truchsess.send2car.geo.GeoUrl;
@@ -44,7 +45,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**********************************************************************************************
- Copyright (C) 2018 Norbert Truchsess norbert.truchsess@t-online.de
+ Copyright (C) 2020 Norbert Truchsess norbert.truchsess@t-online.de
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Story currentStory;
 
     private PreferencesFragment mPreferencesFragment;
-    private GetVinsFragment mGetVinsFragment;
+    private PreferencesActionsFragment mGetVinsFragment;
     private GeoFragment mGeoFragment;
     private ListPlacesFragment mListPlacesFragment;
     private PlaceFragment mPlaceFragment;
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Token mToken;
     private GetVehiclesController mGetVehiclesController;
+    private GetApiKeysController mGetApiKeysController;
     private SendServiceMessageController mServiceMessageController;
     private Set<DataSetObserver> mServiceMessageDataSetObservers = new HashSet<>();
     //need to store a strong reference to OnSharedPreferenceChangeListener. For Details see:
@@ -92,8 +94,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mPreferencesFragment = (PreferencesFragment) fragment;
             return;
         }
-        if (fragment instanceof GetVinsFragment) {
-            mGetVinsFragment = (GetVinsFragment) fragment;
+        if (fragment instanceof PreferencesActionsFragment) {
+            mGetVinsFragment = (PreferencesActionsFragment) fragment;
             return;
         }
         if (fragment instanceof GeoFragment) {
@@ -126,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         mToken = new Token();
+        mGetApiKeysController = new GetApiKeysController();
         mGetVehiclesController = new GetVehiclesController();
         mServiceMessageController = new SendServiceMessageController();
 
@@ -140,7 +143,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
 
-        mGetVinsFragment.setmListener(new GetVinsFragment.Listener() {
+        mGetVinsFragment.setmListener(new PreferencesActionsFragment.Listener() {
+
+            @Override
+            public void onLoadKeysClicked() {
+                getApiKeys();
+            }
+
             @Override
             public void onGetVinsClicked() {
                 getVehicles();
@@ -422,6 +431,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     observer.onInvalidated();
                 }
                 mStatusFragment.setStatus(getString(R.string.status_lookup_geo_error), error);
+                updateView();
+            }
+        });
+    }
+
+    private void getApiKeys() {
+
+        mStatusFragment.setStatus(getString(R.string.status_get_keys),getString(R.string.status_loading));
+        updateView();
+
+        mGetApiKeysController.getPortalFlagsResponse(new GetApiKeysController.GetPortalFlagsListener() {
+            @Override
+            public void onUpdate() {
+                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString(getString(R.string.key_preference_apikey), mGetApiKeysController.getApiKey());
+                editor.putString(getString(R.string.key_preference_apisecret), mGetApiKeysController.getApiSecret());
+                editor.commit();
+                mStatusFragment.setStatus(getString(R.string.status_get_keys),getString(R.string.status_success));
+                updateView();
+            }
+
+            @Override
+            public void onError(String error) {
+                mStatusFragment.setStatus(getString(R.string.status_get_keys_error), error);
                 updateView();
             }
         });
