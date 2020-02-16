@@ -315,10 +315,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (Intent.ACTION_VIEW.equals(action)) {
             final Uri uri = intent.getData();
-            final String scheme = uri.getScheme();
-            if (scheme.equals("geo") || scheme.equals("google.navigation")) {
-                mServiceMessageController.setGeoUrlFromUri(uri);
-            }
+
+            mServiceMessageController.setGeoUrlFromUri(uri);
+
             final GeoUrl geoUrl = mServiceMessageController.getGeoUrl();
 
             if (mGeoFragment != null) {

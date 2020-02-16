@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**********************************************************************************************
- Copyright (C) 2018 Norbert Truchsess norbert.truchsess@t-online.de
+ Copyright (C) 2020 Norbert Truchsess norbert.truchsess@t-online.de
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -37,19 +37,30 @@ public class GeoUrl {
         this.description = description;
     }
 
-    public void fromUri(Uri uri) {
+    public void fromUri(final Uri uri) {
 
-        String data = uri.getSchemeSpecificPart();
+        final String scheme = uri.getScheme();
+
+        if (scheme.equals("geo") || scheme.equals("google.navigation")) {
+            fromGeoUri(uri);
+        } else if (scheme.equals("http") || scheme.equals("https")) {
+            fromHttpUri(uri);
+        }
+    }
+
+    public void fromGeoUri(final Uri uri) {
+
+        final String data = uri.getSchemeSpecificPart();
 
         // format is:
         // <lat>,<lon>?z=<zoom>
         // 0,0?q=<lat>,<lon>(label)
 
         int qpos = data.indexOf("?");
-        String resource = qpos < 0 ? data : data.substring(0, qpos);
-        String query = data.substring(qpos+1);
+        final String resource = qpos < 0 ? data : data.substring(0, qpos);
+        final String query = data.substring(qpos+1);
 
-        Matcher resMatcher = Pattern.compile("^(\\d++\\.?\\d*),(\\d++\\.?\\d*)$").matcher(resource);
+        final Matcher resMatcher = Pattern.compile("^(\\d++\\.?\\d*),(\\d++\\.?\\d*)$").matcher(resource);
         boolean resMatches = resMatcher.matches();
 
         lat = resMatches ? Double.parseDouble(resMatcher.group(1)) : Double.NaN;
@@ -57,14 +68,14 @@ public class GeoUrl {
 
         description = null;
 
-        StringTokenizer queryTokenizer = new StringTokenizer(query,"&");
+        final StringTokenizer queryTokenizer = new StringTokenizer(query,"&");
         while (queryTokenizer.hasMoreTokens()) {
             final String nextToken = queryTokenizer.nextToken();
-            Matcher paramMatcher = Pattern.compile("^q=(.*)$",Pattern.DOTALL).matcher(nextToken);
+            final Matcher paramMatcher = Pattern.compile("^q=(.*)$",Pattern.DOTALL).matcher(nextToken);
             if (paramMatcher.matches()) {
                 final String q0 = paramMatcher.group(1);
                 final String q1 = q0.replaceAll("[\\n\\r\\t\\f]",", ");
-                Matcher locationMatcher = Pattern.compile("^(\\d++\\.?\\d*),(\\d++\\.?\\d*)(\\((.*)\\)|)+$").matcher(q1);
+                final Matcher locationMatcher = Pattern.compile("^(\\d++\\.?\\d*),(\\d++\\.?\\d*)(\\((.*)\\)|)+$").matcher(q1);
                 if (locationMatcher.matches()) {
                     lat = Double.parseDouble(locationMatcher.group(1));
                     lon = Double.parseDouble(locationMatcher.group(2));
@@ -72,6 +83,25 @@ public class GeoUrl {
                     break;
                 } else {
                     description = q1;
+                }
+            }
+        }
+    }
+
+    public void fromHttpUri(final Uri uri) {
+        // formats of google-maps uris:
+        // https://www.google.com/maps?q=<description>&ll=<lat>,<lon>
+        // https://maps.google.com/?q=<description>&ll=<lat>,<lon>
+        // https://www.google.com/maps/@<lat>,<lon>,<zoom>z
+
+        if (uri.getHost().contains("google")) {
+            description = uri.getQueryParameter("q");
+            final String ll = uri.getQueryParameter("ll");
+            if (ll != null && !ll.isEmpty()) {
+                final Matcher locationMatcher = Pattern.compile("^(\\d++\\.?\\d*),(\\d++\\.?\\d*)$").matcher(ll);
+                if (locationMatcher.matches()) {
+                    lat = Double.parseDouble(locationMatcher.group(1));
+                    lon = Double.parseDouble(locationMatcher.group(2));
                 }
             }
         }
