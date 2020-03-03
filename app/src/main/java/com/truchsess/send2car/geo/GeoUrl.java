@@ -60,7 +60,7 @@ public class GeoUrl {
         final String resource = qpos < 0 ? data : data.substring(0, qpos);
         final String query = data.substring(qpos+1);
 
-        final Matcher resMatcher = Pattern.compile("^(\\d++\\.?\\d*),(\\d++\\.?\\d*)$").matcher(resource);
+        final Matcher resMatcher = Pattern.compile("^(-?\\d++\\.?\\d*),(-?\\d++\\.?\\d*)$").matcher(resource);
         boolean resMatches = resMatcher.matches();
 
         lat = resMatches ? Double.parseDouble(resMatcher.group(1)) : Double.NaN;
@@ -75,7 +75,7 @@ public class GeoUrl {
             if (paramMatcher.matches()) {
                 final String q0 = paramMatcher.group(1);
                 final String q1 = q0.replaceAll("[\\n\\r\\t\\f]",", ");
-                final Matcher locationMatcher = Pattern.compile("^(\\d++\\.?\\d*),(\\d++\\.?\\d*)(\\((.*)\\)|)+$").matcher(q1);
+                final Matcher locationMatcher = Pattern.compile("^(-?\\d++\\.?\\d*),(-?\\d++\\.?\\d*)(\\((.*)\\)|)+$").matcher(q1);
                 if (locationMatcher.matches()) {
                     lat = Double.parseDouble(locationMatcher.group(1));
                     lon = Double.parseDouble(locationMatcher.group(2));
@@ -98,7 +98,7 @@ public class GeoUrl {
             description = uri.getQueryParameter("q");
             final String ll = uri.getQueryParameter("ll");
             if (ll != null && !ll.isEmpty()) {
-                final Matcher locationMatcher = Pattern.compile("^(\\d++\\.?\\d*),(\\d++\\.?\\d*)$").matcher(ll);
+                final Matcher locationMatcher = Pattern.compile("^(-?\\d++\\.?\\d*),(-?\\d++\\.?\\d*)$").matcher(ll);
                 if (locationMatcher.matches()) {
                     lat = Double.parseDouble(locationMatcher.group(1));
                     lon = Double.parseDouble(locationMatcher.group(2));
