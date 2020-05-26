@@ -68,22 +68,17 @@ public class GeoUrl {
 
         description = null;
 
-        final StringTokenizer queryTokenizer = new StringTokenizer(query,"&");
-        while (queryTokenizer.hasMoreTokens()) {
-            final String nextToken = queryTokenizer.nextToken();
-            final Matcher paramMatcher = Pattern.compile("^q=(.*)$",Pattern.DOTALL).matcher(nextToken);
-            if (paramMatcher.matches()) {
-                final String q0 = paramMatcher.group(1);
-                final String q1 = q0.replaceAll("[\\n\\r\\t\\f]",", ");
-                final Matcher locationMatcher = Pattern.compile("^(-?\\d++\\.?\\d*),(-?\\d++\\.?\\d*)(\\((.*)\\)|)+$").matcher(q1);
-                if (locationMatcher.matches()) {
-                    lat = Double.parseDouble(locationMatcher.group(1));
-                    lon = Double.parseDouble(locationMatcher.group(2));
-                    description = locationMatcher.group(4);
-                    break;
-                } else {
-                    description = q1;
-                }
+        final Matcher paramMatcher = Pattern.compile("^q=(.*)$",Pattern.DOTALL).matcher(query);
+        if (paramMatcher.matches()) {
+            final String q0 = paramMatcher.group(1);
+            final String q1 = q0.replaceAll("[\\n\\r\\t\\f]",", ");
+            final Matcher locationMatcher = Pattern.compile("^(-?\\d++\\.?\\d*),(-?\\d++\\.?\\d*)(\\((.*)\\)|)+$").matcher(q1);
+            if (locationMatcher.matches()) {
+                lat = Double.parseDouble(locationMatcher.group(1));
+                lon = Double.parseDouble(locationMatcher.group(2));
+                description = locationMatcher.group(4);
+            } else {
+                description = q1;
             }
         }
     }
