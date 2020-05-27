@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.ListView;
 
 /**********************************************************************************************
- Copyright (C) 2018 Norbert Truchsess norbert.truchsess@t-online.de
+ Copyright (C) 2020 Norbert Truchsess norbert.truchsess@t-online.de
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by

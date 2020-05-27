@@ -34,7 +34,7 @@ public class PreferencesActionsFragment extends Fragment {
         void onGetVinsClicked();
     }
 
-    public void setmListener(Listener listener) {
+    public void setListener(Listener listener) {
         mListener = listener;
     }
 

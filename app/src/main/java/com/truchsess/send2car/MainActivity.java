@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
 
-        mGetVinsFragment.setmListener(new PreferencesActionsFragment.Listener() {
+        mGetVinsFragment.setListener(new PreferencesActionsFragment.Listener() {
 
             @Override
             public void onLoadKeysClicked() {
@@ -155,6 +155,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 getVehicles();
             }
         });
+
+        setupListPlacesFragment();
+
+        setupPlaceFragement();
+
+        mGeoFragment.setListener(new GeoFragment.Listener() {
+            @Override
+            public void onLookupGeoDataClicked() {
+                mServiceMessageController.setGeoUrl(mGeoFragment.getGeoUrl());
+                getGeoData();
+            }
+        });
+
+        final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        mOnSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                if (key.equals(getString(R.string.key_preference_vins))) {
+                    setVinsFromPreferences(sharedPreferences);
+                }
+            }
+        };
+        sp.registerOnSharedPreferenceChangeListener(mOnSharedPreferenceChangeListener);
+
+        setVinsFromPreferences(sp);
+
+        currentStory = Story.eArguments;
+
+        // Get intent, action and MIME type
+        Intent intent = getIntent();
+        String action = intent.getAction();
+
+        if (Intent.ACTION_VIEW.equals(action)) {
+            final Uri uri = intent.getData();
+
+            mServiceMessageController.setGeoUrlFromUri(uri);
+
+            final GeoUrl geoUrl = mServiceMessageController.getGeoUrl();
+
+            if (mGeoFragment != null) {
+                mGeoFragment.setGeoUrl(geoUrl);
+            }
+
+            getGeoData();
+        }
+    }
+
+    private void setupListPlacesFragment() {
 
         mListPlacesFragment.setListAdapter(new ListAdapter() {
 
@@ -180,12 +228,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public int getCount() {
-                return mServiceMessageController.getNumServiceMessages();
+                return mServiceMessageController.getNumPlaces();
             }
 
             @Override
             public Object getItem(int position) {
-                return mServiceMessageController.getServiceMessage(position);
+                return mServiceMessageController.getPlace(position);
             }
 
             @Override
@@ -203,8 +251,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 final View view = convertView == null ?
                         getLayoutInflater().inflate(R.layout.list_place, null, true) :
                         convertView;
-                TextView textPlaceName = (TextView) view.findViewById(R.id.textListPlaceName);
-                textPlaceName.setText(((ServiceMessage)getItem(position)).getName());
+                mServiceMessageController.setPlaceIndex(position);
+                final TextView textPlaceName = (TextView) view.findViewById(R.id.textListPlaceName);
+                textPlaceName.setText(mServiceMessageController.getPlaceName());
+                final TextView textPlaceDetails = (TextView) view.findViewById(R.id.textListPlaceAddress);
+                textPlaceDetails.setText(mServiceMessageController.getPlaceDetails());
                 return view;
             }
 
@@ -220,21 +271,78 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public boolean isEmpty() {
-                return mServiceMessageController.getNumServiceMessages() == 0;
+                return mServiceMessageController.getNumPlaces() == 0;
             }
         });
 
         mListPlacesFragment.setListPlacesListener(new ListPlacesFragment.Listener() {
             @Override
             public void onListItemClick(int position) {
-                mServiceMessageController.setServiceMessageIndex(position);
+                mServiceMessageController.setPlaceIndex(position);
+                mServiceMessageController.createServiceMessage();
                 mStatusFragment.clear();
                 currentStory = Story.eCurrentMessage;
                 updateView();
             }
         });
+    }
 
-        mPlaceFragment.setPlaceFragmentListener(new PlaceFragment.Listener() {
+    private void setupPlaceFragement() {
+
+        mServiceMessageController.setSubjectListListener(new SendServiceMessageController.SubjectListListener() {
+            @Override
+            public void onSubjectListChanged() {
+                mPlaceFragment.onSubjectListChanged();
+            }
+        });
+
+        mServiceMessageController.setServiceMessageListener(new SendServiceMessageController.ServiceMessageListener() {
+            @Override
+            public void onServiceMessageChanged() {
+                mPlaceFragment.setServiceMessage(mServiceMessageController.getServiceMessage());
+            }
+        });
+
+        mPlaceFragment.setSubjectListAdapter(new PlaceFragment.SubjectListAdapter() {
+            @Override
+            public int getNumSubjects() {
+                return mServiceMessageController.getNumSubjects();
+            }
+
+            @Override
+            public String getSubject(final int position) {
+                return mServiceMessageController.getSubject(position);
+            }
+
+            @Override
+            public void onSubjectSelected(final int position) {
+                mServiceMessageController.setSubjectIndex(position);
+            }
+        });
+
+        mPlaceFragment.setSubjectTextEditListener(new PlaceFragment.SubjectTextEditListener() {
+            @Override
+            public void onSubjectChanged(final String subject) {
+                mServiceMessageController.setSubject(subject);
+            }
+        });
+
+        mPlaceFragment.setPhoneTextEditListener(new PlaceFragment.PhoneTextEditListener() {
+            @Override
+            public void onPhoneChanged(final String phoneNumber) {
+                mServiceMessageController.setPhone(phoneNumber);
+            }
+        });
+
+        mPlaceFragment.setMessageTextEditListener(new PlaceFragment.MessageTextEditListener() {
+            @Override
+            public void onMessageChanged(final String message) {
+                mServiceMessageController.setMessage(message);
+            }
+        });
+
+        mPlaceFragment.setSend2CarButtonListener(new PlaceFragment.Send2CarButtonListener() {
+
             @Override
             public void onSend2CarClicked() {
 
@@ -284,48 +392,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
-
-
-        mGeoFragment.setListener(new GeoFragment.Listener() {
-            @Override
-            public void onLookupGeoDataClicked() {
-                mServiceMessageController.setGeoUrl(mGeoFragment.getGeoUrl());
-                getGeoData();
-            }
-        });
-
-        final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        mOnSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                if (key.equals(getString(R.string.key_preference_vins))) {
-                    setVinsFromPreferences(sharedPreferences);
-                }
-            }
-        };
-        sp.registerOnSharedPreferenceChangeListener(mOnSharedPreferenceChangeListener);
-
-        setVinsFromPreferences(sp);
-
-        currentStory = Story.eArguments;
-
-        // Get intent, action and MIME type
-        Intent intent = getIntent();
-        String action = intent.getAction();
-
-        if (Intent.ACTION_VIEW.equals(action)) {
-            final Uri uri = intent.getData();
-
-            mServiceMessageController.setGeoUrlFromUri(uri);
-
-            final GeoUrl geoUrl = mServiceMessageController.getGeoUrl();
-
-            if (mGeoFragment != null) {
-                mGeoFragment.setGeoUrl(geoUrl);
-            }
-
-            getGeoData();
-        }
     }
 
     private void setVinsFromPreferences(SharedPreferences sharedPreferences) {
@@ -421,6 +487,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     observer.onChanged();
                 }
                 mStatusFragment.setStatus(getString(R.string.status_lookup_geo),getString(R.string.status_success));
+                if (mServiceMessageController.getNumPlaces() <= 1) {
+                    createAndDisplayCurrentMessage();
+                }
                 updateView();
             }
 
@@ -430,9 +499,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     observer.onInvalidated();
                 }
                 mStatusFragment.setStatus(getString(R.string.status_lookup_geo_error), error);
+                createAndDisplayCurrentMessage();
                 updateView();
             }
         });
+    }
+
+    private void createAndDisplayCurrentMessage() {
+        mServiceMessageController.setPlaceIndex(0);
+        mServiceMessageController.createServiceMessage();
+        mServiceMessageController.setSubjectIndex(0);
+        currentStory = Story.eCurrentMessage;
     }
 
     private void getApiKeys() {

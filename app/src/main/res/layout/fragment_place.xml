@@ -90,6 +90,17 @@
         <TextView
             android:padding="3dp"
             android:text="@string/poi_subject"/>
+        <Spinner
+            android:id="@+id/spinnerPoiSubject"
+            android:layout_width="match_parent"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:padding="3dp"
+            android:text="@string/poi_subject"/>
         <EditText
             android:id="@+id/editTextSubject"
             android:padding="3dp"
