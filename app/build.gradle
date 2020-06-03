@@ -6,14 +6,19 @@ android {
         applicationId "com.truchsess.send2car"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 7
-        versionName "7"
+        versionCode 8
+        versionName "0.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            versionNameSuffix ".debug"
+            resValue "string", "app_version", "${defaultConfig.versionName}${versionNameSuffix}"
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue "string", "app_version", "${defaultConfig.versionName}"
         }
     }
 }
