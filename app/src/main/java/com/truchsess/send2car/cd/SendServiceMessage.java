@@ -3,6 +3,7 @@ package com.truchsess.send2car.cd;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.truchsess.send2car.cd.api.CDApi;
+import com.truchsess.send2car.cd.api.SendServiceMessageResponse;
 import com.truchsess.send2car.cd.entity.CDApiJSONError;
 import com.truchsess.send2car.cd.entity.ServiceMessage;
 
@@ -58,17 +59,17 @@ public class SendServiceMessage {
     }
 
     public interface SendServiceMessageListener {
-        public void onSuccess();
+        public void onSuccess(SendServiceMessageResponse sendServiceMessageResponse);
         public void onError(CDApiJSONError error);
     }
 
     public void sendServiceMessage(final ServiceMessage serviceMessage, final String authorization, final SendServiceMessageListener listener) {
 
-        cdApi.sendServiceMessage(serviceMessage, authorization).enqueue(new Callback<Void>() {
+        cdApi.sendServiceMessage(serviceMessage, authorization).enqueue(new Callback<SendServiceMessageResponse>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<SendServiceMessageResponse> call, Response<SendServiceMessageResponse> response) {
                 if (response.isSuccessful()) {
-                    listener.onSuccess();
+                    listener.onSuccess(response.body());
                 } else {
                     final RequestBody requestBody = call.request().body();
                     final Buffer buffer = new Buffer();
@@ -113,7 +114,7 @@ public class SendServiceMessage {
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<SendServiceMessageResponse> call, Throwable t) {
                 final CDApiJSONError error = new CDApiJSONError();
                 final List<String> reasons = new ArrayList<>();
                 reasons.add("0");

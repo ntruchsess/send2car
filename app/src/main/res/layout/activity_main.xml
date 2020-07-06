@@ -35,6 +35,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <fragment
+                android:name="com.truchsess.send2car.AboutFragment"
+                android:id="@+id/fragmentAbout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <fragment
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:name="com.truchsess.send2car.PreferencesActionsFragment"

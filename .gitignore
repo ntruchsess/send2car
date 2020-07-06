@@ -4,4 +4,5 @@
 /.idea
 /app/build
 /app/release
+/app/debug
 /build

@@ -5,17 +5,20 @@
         android:id="@+id/empty"
         android:icon="@drawable/ic_action_menu_light"
         android:orderInCategory="101"
-        android:title="@string/menu"
+        android:title="@string/action_menue"
         app:showAsAction="always">
         <menu>
             <item
                 android:id="@+id/preferences"
-                android:title="Preferences" />
+                android:title="@string/action_settings" />
             <item
                 android:id="@+id/help"
                 android:icon="@drawable/ic_action_help"
-                android:title="@string/help"
+                android:title="@string/action_help"
                 app:showAsAction="always|withText" />
+            <item
+                android:id="@+id/about"
+                android:title="@string/action_about"></item>
         </menu>
     </item>
 </menu>

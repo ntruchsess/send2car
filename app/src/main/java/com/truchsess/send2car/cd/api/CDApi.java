@@ -52,9 +52,9 @@ public interface CDApi {
     @POST("webapi/v1/user/vehicles/{VIN}/sendpoi")
     Call<ErrorResponse> sendPoi(@Path("VIN") String vin, @Field("data") String poiMessageData, @Header("Authorization") String authorization);
 
-    @POST("api/vehicle/myinfo/v1")
+    @POST("api/vehicle/myinfo/v1/send")
     //@Headers("Content-Type: application/json;charset=utf-8")
-    Call<Void> sendServiceMessage(@Body ServiceMessage serviceMessage, @Header("Authorization") String authorization);
+    Call<SendServiceMessageResponse> sendServiceMessage(@Body ServiceMessage serviceMessage, @Header("Authorization") String authorization);
 
     @GET("cms/BMW/de/flags.json")
     Call<PortalFlagsResponse> getPortalFlags();

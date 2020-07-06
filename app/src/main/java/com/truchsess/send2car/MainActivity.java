@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private enum Story {
         ePreferences,
+        eAbout,
         eArguments,
         eCurrentMessage
     }
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ListPlacesFragment mListPlacesFragment;
     private PlaceFragment mPlaceFragment;
     private StatusFragment mStatusFragment;
+    private AboutFragment mAboutFragment;
     private ActionBar mActionBar;
 
     private Token mToken;
@@ -96,6 +98,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (fragment instanceof PreferencesActionsFragment) {
             mGetVinsFragment = (PreferencesActionsFragment) fragment;
+            return;
+        }
+        if (fragment instanceof AboutFragment) {
+            mAboutFragment = (AboutFragment) fragment;
             return;
         }
         if (fragment instanceof GeoFragment) {
@@ -370,8 +376,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             mServiceMessageController.setVin(vin);
                             mServiceMessageController.sendServiceMessage2Car(mToken, new SendServiceMessageController.ServiceMessageSendListener() {
                                 @Override
-                                public void onSent() {
-                                    mStatusFragment.setStatus(getString(R.string.status_servicemessage),getString(R.string.status_sent));
+                                public void onSent(String status) {
+                                    final String statusTxt = status == null ? getString(R.string.status_unknown)
+                                            : status.equals("OK") ? getString(R.string.status_sent)
+                                            : status;
+                                    mStatusFragment.setStatus(getString(R.string.status_servicemessage),statusTxt);
                                     updateView();
                                 }
 
@@ -439,6 +448,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.preferences:
                 mStatusFragment.clear();
                 currentStory = Story.ePreferences;
+                updateView();
+                break;
+            case R.id.about:
+                mStatusFragment.clear();
+                currentStory = Story.eAbout;
                 updateView();
                 break;
             case android.R.id.home:
@@ -606,7 +620,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case ePreferences:
                 mActionBar.setDisplayHomeAsUpEnabled(true);
                 showFragment(ft,mPreferencesFragment,force);
+                hideFragment(ft,mAboutFragment,force);
                 showFragment(ft,mGetVinsFragment,force);
+                hideFragment(ft,mGeoFragment,force);
+                hideFragment(ft,mListPlacesFragment,force);
+                hideFragment(ft,mPlaceFragment,force);
+                break;
+
+            case eAbout:
+                mActionBar.setDisplayHomeAsUpEnabled(true);
+                hideFragment(ft,mPreferencesFragment,force);
+                showFragment(ft,mAboutFragment,force);
+                hideFragment(ft,mGetVinsFragment,force);
                 hideFragment(ft,mGeoFragment,force);
                 hideFragment(ft,mListPlacesFragment,force);
                 hideFragment(ft,mPlaceFragment,force);
@@ -615,6 +640,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case eArguments:
                 mActionBar.setDisplayHomeAsUpEnabled(false);
                 hideFragment(ft,mPreferencesFragment,force);
+                hideFragment(ft,mAboutFragment,force);
                 hideFragment(ft,mGetVinsFragment,force);
                 showFragment(ft,mGeoFragment,force);
                 showFragment(ft,mListPlacesFragment,force);
@@ -624,6 +650,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case eCurrentMessage:
                 mActionBar.setDisplayHomeAsUpEnabled(true);
                 hideFragment(ft,mPreferencesFragment,force);
+                hideFragment(ft,mAboutFragment,force);
                 hideFragment(ft,mGetVinsFragment,force);
                 hideFragment(ft,mGeoFragment,force);
                 hideFragment(ft,mListPlacesFragment,force);

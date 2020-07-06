@@ -5,6 +5,7 @@ import android.net.Uri;
 import com.truchsess.send2car.cd.SendServiceMessage;
 import com.truchsess.send2car.cd.Token;
 import com.truchsess.send2car.cd.api.CDApi;
+import com.truchsess.send2car.cd.api.SendServiceMessageResponse;
 import com.truchsess.send2car.cd.entity.CDApiJSONError;
 import com.truchsess.send2car.cd.entity.ServiceMessage;
 import com.truchsess.send2car.geo.GeoUrl;
@@ -88,7 +89,7 @@ public class SendServiceMessageController {
     }
 
     public interface ServiceMessageSendListener {
-        void onSent();
+        void onSent(String status);
         void onError(String error);
     }
 
@@ -511,8 +512,8 @@ public class SendServiceMessageController {
             serviceMessage.setVins(mVinList);
             mSendServiceMessage.sendServiceMessage(serviceMessage, token.getAuthorization(), new SendServiceMessage.SendServiceMessageListener() {
                 @Override
-                public void onSuccess() {
-                    listener.onSent();
+                public void onSuccess(SendServiceMessageResponse sendServiceMessageResponse) {
+                    listener.onSent(sendServiceMessageResponse == null ? null : sendServiceMessageResponse.getStatus());
                 }
 
                 @Override
