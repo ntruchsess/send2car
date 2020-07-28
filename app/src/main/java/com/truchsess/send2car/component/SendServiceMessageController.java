@@ -311,6 +311,7 @@ public class SendServiceMessageController {
     private void createSubjectList() {
         mSubjectList.clear();
         addToSubjectList(mGeoUrl.getDescription());
+        addToSubjectListSplit(mGeoUrl.getDescription());
         addToSubjectList(mPlaceName);
         addToSubjectList(mPlaceDetails);
         addToSubjectList(getCategory());
@@ -333,6 +334,15 @@ public class SendServiceMessageController {
         }
     }
 
+    private void addToSubjectListSplit(final String description) {
+        if (description != null && !description.isEmpty()) {
+            String[] splitted = description.split("\\s+", 2);
+            if (splitted.length > 1) {
+                addToSubjectList(splitted[1]);
+            }
+        }
+    }
+
     private void addToSubjectList(final String subject) {
         if (subject != null && !subject.isEmpty()) {
             final String truncatedSubject = truncateSubject(subject);
@@ -343,7 +353,7 @@ public class SendServiceMessageController {
     }
 
     private String truncateSubject(final String subject) {
-        return subject == null ? null : subject.length() > 20 ? subject.substring(0, 19) : subject;
+        return subject == null ? null : subject.length() > 20 ? subject.substring(0, 20) : subject;
     }
 
     private String truncateMessage(final String message) {
