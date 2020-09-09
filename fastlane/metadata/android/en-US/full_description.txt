@@ -1,0 +1,6 @@
+Many android apps allow to open a geolocation in another app like OSMAnd or Googlemaps. In most cases this is either done by clicking a 'share' or 'navigate to' action. Such action triggers a so call 'Intent' and Android will promt the user to select an app to be used to handle that.
+Unfortunally the original BMW Connected-app does not show up here.
+Here is where 'send2car' comes into play - is an app capable or receiving intents for the geo-url-sheme and translating this event into a connected-drive message to be send to your car. As Geo-intends besides the coordinates do not contain much detail when receiving such geo-url-intent send2car will do some reverse-geocoding to retrieve additional data and offer to send the result to a bmw car via the services provides by the BMW Connected-drive portal. The message being send to the car is equivalent to message that is sent from the Map that you can find in Connected-drive app or portal. Actually send2car does use the very same web-services that the connected-drive-portal web-app uses.
+When opening the message in your cars head-unit you can choose to navigate to the precise location that is encoded within the message.
+To use you need to configure your connected-drive accout in send2car and retrieve the associated VINs from connected-drive portal.
+

@@ -1,0 +1,7 @@
+Funktional Update 0.4
+* fix a bug when the geo-intents description contains the character '&'
+* directly navigate to send-message-dialog in case geocoding returns unique result
+* allow to send location and (optional) search-text in case geocoding fails.
+* add a spinner to choose from a bunch of suggested subjects.
+
+

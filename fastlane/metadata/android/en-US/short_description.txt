@@ -1,0 +1,1 @@
+send geo-locations to your bmw car from any app that allows sharing locations

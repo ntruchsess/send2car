@@ -1,0 +1,5 @@
+minor functional update 0.6 (choice of subject)
+* additional choice for subject: description without prefix (removes e.g. NextPlugs prefix 'Stromtankstelle:')
+* fix automatic truncation to 20 chars for subjects
+
+

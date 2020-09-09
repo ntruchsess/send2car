@@ -1,0 +1,5 @@
+Bugfix release 0.5
+* adjust API-Call as it was changed in the CD-portal (fixes Error 403 when sending message).
+* add minimal about-page
+
+

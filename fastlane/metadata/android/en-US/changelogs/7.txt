@@ -1,0 +1,8 @@
+Release 0.3: bugfix release
+* fix error parsing negative coordinates
+
+functional Update 0.2
+* Easier configuration (automatic retrival of API-keys)
+* Respond to Google-maps intents (as shared by ABRP)
+
+Initial Release 0.1
