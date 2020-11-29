@@ -1,0 +1,2 @@
+minor functional update 0.7 (icon)
+* add custom icon
