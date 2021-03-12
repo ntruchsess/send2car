@@ -1,0 +1,2 @@
+Quickfix after relauch of BMW Portal
+* adjust BaseURL of API (can send locations and load VINs but not the API-keys yet)

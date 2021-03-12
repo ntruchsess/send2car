@@ -66,7 +66,7 @@ public class SendServiceMessageController {
     }
 
     public SendServiceMessageController() {
-        mSendServiceMessage = new SendServiceMessage(CDApi.CD_SERVER);
+        mSendServiceMessage = new SendServiceMessage(CDApi.API_SERVER);
         mGeoUrl = new GeoUrl();
         mNominatimCall = new NominatimCall();
 
