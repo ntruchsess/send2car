@@ -32,7 +32,7 @@ public interface CDApi {
     // API Gateway
     public static String API_SERVER = "https://b2vapi.bmwgroup.com";
 
-    public static String CD_SERVER = "https://www.bmw-connecteddrive.de";
+    public static String CD_SERVER = "https://www.bmw-connecteddrive.cz";
 
     @FormUrlEncoded
     @POST("webapi/oauth/token/")

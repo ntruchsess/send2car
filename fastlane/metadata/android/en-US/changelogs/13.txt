@@ -1,0 +1,2 @@
+2. Quickfix after relauch of BMW Portal
+* adjust URL for keys 
